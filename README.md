@@ -34,6 +34,30 @@ COPY . .
 RUN npm run build
 CMD ["npm","start"]
 ```
+명령어를 입력해 이미지를 만들고 실행할 수 있다.
+>`docker build --tag react .` <br/>
+>`docker run --publish 3000:3000 react`<br/>
+
+---
+docker-compose.yml 파일 만들기.
+```yml
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/react-docker
+    ports:
+      - 3000:3000
+    image: app:react
+    container_name: react-container
+    command: npm start
+
+```
+명령어를 입력해 이미지와 컨테이너를만들고 실행할 수있다.
+> `docker-compose build`<br/>
+> `docker-compose up`
 
 ## Dockerfile에서 자주쓰이는 명령어
 >FROM : base 이미지를 지정해주기위해 사용
@@ -45,6 +69,17 @@ CMD ["npm","start"]
 >
 >COPY : 
 
+
+## docker-compose.yml 파일 작성법
+1. `version:3.0` yml 버젼 작성 , 보통3으로설정
+2. 서비스 정의
+  ```yml
+  services:
+    컨테이너1:
+      image:
+    컨테이너2:
+      image2:
+  ```
 ## Docker 명령어
 >`docker build <옵션> <Dockerfile 경로>` : --tag 옵션으로 이미지 이름과 태그를 설정할 수 있다. 이미지 이름만 설정하면 태그는 latest로 설정됩니다.
 >
@@ -53,5 +88,5 @@ CMD ["npm","start"]
 >
 >`docker-compose build`<br/>
 >`docker-compose run`<br/>
->
+>`docker-compose up` : 포트 바인딩까지 해서 실행할수있음..(?)
 ---
